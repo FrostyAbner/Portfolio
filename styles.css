@@ -303,44 +303,62 @@ nav {
 .skill-card h3, .education-card h3, .certification-card h3 { color: #007ced; font-size: 22px; }
 
 /* ================= MOBILE RESPONSIVENESS ================= */
+/* ================= MOBILE RESPONSIVENESS ================= */
 @media (max-width: 900px) {
 
+    /* Prevent horizontal scroll on mobile */
+    html, body {
+        overflow-x: hidden;
+    }
+
+    /* HEADER PADDING */
     header {
         padding: 0 20px;
     }
 
-    /* HAMBURGER / CLOSE BUTTON */
+    /* HAMBURGER BUTTON */
     .togglebtn {
         display: flex;
-        position: fixed;          /* 🔥 IMPORTANT */
+        position: fixed;      /* stays on top */
         top: 26px;
         right: 20px;
-        z-index: 1200;            /* 🔥 ABOVE MENU */
+        z-index: 1200;        /* above menu */
+        flex-direction: column;
+        cursor: pointer;
     }
 
-    /* FULLSCREEN MENU */
+    .togglebtn span {
+        width: 28px;
+        height: 3px;
+        background: #007ced;
+        margin: 4px 0;
+        transition: 0.4s;
+        border-radius: 2px;
+    }
+
+    /* Hamburger to X animation */
+    .togglebtn.click span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+    .togglebtn.click span:nth-child(2) { opacity: 0; }
+    .togglebtn.click span:nth-child(3) { transform: rotate(45deg) translate(-5px, -7px); }
+
+    /* FULLSCREEN NAVIGATION MENU */
     .navlinks {
         position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100dvh;
-
-        overflow: hidden;
-        background: rgba(20, 20, 20, 0.98);
+        inset: 0;              /* top:0; left:0; bottom:0; right:0 */
+        width: 100%;           /* avoid 100vw issues */
+        height: 100%;          /* avoid 100vh issues on Android */
+        background: rgba(20,20,20,0.98);
         backdrop-filter: blur(6px);
-
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
         gap: 35px;
+        z-index: 1100;
 
         /* CLOSED STATE */
-        transform: translateX(100%);
+        transform: translateX(105%);  /* slightly offscreen to avoid horizontal scroll */
         transition: transform 0.45s ease-in-out;
-
-        z-index: 1100;
     }
 
     /* OPEN STATE */
@@ -348,7 +366,15 @@ nav {
         transform: translateX(0);
     }
 
-    /* CONTENT STACKING */
+    /* LOCK BODY SCROLL WHEN MENU OPEN */
+    body.menu-open {
+        overflow: hidden;
+        position: fixed;      /* freeze content behind menu */
+        width: 100%;
+        touch-action: none;
+    }
+
+    /* CONTENT STACKING FOR MOBILE */
     .container,
     .about-container,
     .skills-wrapper,
@@ -378,9 +404,5 @@ nav {
         transform: translateY(-5px);
     }
 }
-@media (max-width: 900px) {
-    html, body {
-        overflow-x: hidden;
-    }
-}
+
 
