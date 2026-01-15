@@ -16,39 +16,41 @@ body {
     color: #fff;
     overflow-x: hidden;
 }
+
+/* Freeze scroll when mobile menu is open */
 body.menu-open {
     overflow: hidden;
-    touch-action: none;
 }
 
 /* ================= HEADER & NAVIGATION ================= */
 header {
-    position: fixed;
+    position: fixed; /* Header stays at the top of the screen */
     top: 0;
     left: 0;
     width: 100%;
     height: 80px;
     z-index: 1000;
-    background: #222;
+    background: #222; /* Solid background so content doesn't bleed through */
     display: flex;
-    /* This pushes the Logo to the left and Nav to the right */
     justify-content: space-between; 
     align-items: center;
-    /* This creates the space from the edges (Adjust 5% to your liking) */
-    padding: 0 5%; 
+    padding: 0 8%; 
     transition: all 0.4s ease;
 }
 
+/* Sticky scroll effect triggered by JS */
 header.scrolled {
-    background: rgba(20, 20, 20, 0.95);
+    background: rgba(15, 15, 15, 0.98);
     backdrop-filter: blur(10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    height: 65px; /* Slightly shrink header on scroll */
 }
 
+/* LOGO */
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
 .logo i {
@@ -67,8 +69,15 @@ header.scrolled {
 .logo-text {
     font-size: 22px;
     font-weight: 500;
+    color: #fff;
+    transition: 0.3s;
 }
 
+header.scrolled .logo-text {
+    font-size: 20px;
+}
+
+/* NAVIGATION LINKS (Desktop) */
 nav {
     display: flex;
     align-items: center;
@@ -111,7 +120,7 @@ nav {
 
 /* ================= HAMBURGER MENU ================= */
 .togglebtn {
-    display: none;
+    display: none; /* Hidden on desktop */
     flex-direction: column;
     cursor: pointer;
     z-index: 1100;
@@ -134,7 +143,7 @@ nav {
 /* ================= HERO SECTION ================= */
 .hero-header {
     min-height: 100vh;
-    padding-top: 140px;
+    padding-top: 100px;
     display: flex;
     align-items: center;
     opacity: 0;
@@ -256,9 +265,6 @@ nav {
     box-shadow: 0 12px 30px rgba(0, 124, 237, 0.2);
 }
 
-.card small { color: #aaa; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
-.card h3 { margin-top: 8px; font-size: 15px; }
-
 /* ================= SKILLS / EDUCATION / CERTIFICATION ================= */
 .skills-wrapper, .education-wrapper, .certification-wrapper {
     display: flex;
@@ -276,105 +282,45 @@ nav {
     flex-shrink: 0;
 }
 
-.skills-content, .education-content, .certification-content { 
-    font-size: 20px;
-    flex: 1;
-}
-
-.skills-content p, .education-content p, .certification-content p { 
-    color: #ccc;
-    margin-bottom: 30px;
-}
-
 .skill-card, .education-card, .certification-card {
     border: 2px solid #007ced;
     padding: 30px;
     border-radius: 18px;
     margin-bottom: 15px;
     transition: 0.3s;
-    
 }
 
-.skill-card:hover, .education-card:hover, .certification-card:hover {
-    transform: translateX(10px);
-    background: rgba(0, 124, 237, 0.05);
-}
-
-.skill-card h3, .education-card h3, .certification-card h3 { color: #007ced; font-size: 22px; }
-
-/* ================= MOBILE RESPONSIVENESS ================= */
 /* ================= MOBILE RESPONSIVENESS ================= */
 @media (max-width: 900px) {
 
-    /* Prevent horizontal scroll on mobile */
-    html, body {
-        overflow-x: hidden;
-    }
+    header { padding: 0 20px; }
 
-    /* HEADER PADDING */
-    header {
-        padding: 0 20px;
-    }
-
-    /* HAMBURGER BUTTON */
+    /* Fix: Let flexbox align the toggle button naturally */
     .togglebtn {
         display: flex;
-        position: fixed;      /* stays on top */
-        top: 26px;
-        right: 20px;
-        z-index: 1200;        /* above menu */
-        flex-direction: column;
-        cursor: pointer;
+        position: relative; /* Removes the hard-coded top/right issue */
+        z-index: 1200;
     }
 
-    .togglebtn span {
-        width: 28px;
-        height: 3px;
-        background: #007ced;
-        margin: 4px 0;
-        transition: 0.4s;
-        border-radius: 2px;
-    }
-
-    /* Hamburger to X animation */
-    .togglebtn.click span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
-    .togglebtn.click span:nth-child(2) { opacity: 0; }
-    .togglebtn.click span:nth-child(3) { transform: rotate(45deg) translate(-5px, -7px); }
-
-    /* FULLSCREEN NAVIGATION MENU */
     .navlinks {
         position: fixed;
-        inset: 0;              /* top:0; left:0; bottom:0; right:0 */
-        width: 100%;           /* avoid 100vw issues */
-        height: 100%;          /* avoid 100vh issues on Android */
-        background: rgba(20,20,20,0.98);
-        backdrop-filter: blur(6px);
-        display: flex;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(20, 20, 20, 0.98);
+        backdrop-filter: blur(10px);
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 35px;
-        z-index: 1100;
-
-        /* CLOSED STATE */
-        transform: translateX(105%);  /* slightly offscreen to avoid horizontal scroll */
-        transition: transform 0.45s ease-in-out;
+        transform: translateX(100%); /* Hides menu off-screen */
+        transition: transform 0.4s ease-in-out;
     }
 
-    /* OPEN STATE */
     .navlinks.open {
         transform: translateX(0);
     }
 
-    /* LOCK BODY SCROLL WHEN MENU OPEN */
-    body.menu-open {
-        overflow: hidden;
-        position: fixed;      /* freeze content behind menu */
-        width: 100%;
-        touch-action: none;
-    }
-
-    /* CONTENT STACKING FOR MOBILE */
     .container,
     .about-container,
     .skills-wrapper,
@@ -385,24 +331,11 @@ nav {
         text-align: center;
     }
 
-    .hero-pic {
-        width: 300px;
-        height: 300px;
-    }
-
-    .hero-text h1 {
-        font-size: 2.5rem;
-    }
-
-    .about-cards {
-        grid-template-columns: 1fr;
-    }
-
-    .skill-card:hover,
-    .education-card:hover,
-    .certification-card:hover {
-        transform: translateY(-5px);
+    .hero-pic { width: 300px; height: 300px; }
+    .hero-text h1 { font-size: 2.5rem; }
+    .about-cards { grid-template-columns: 1fr; }
+    
+    .skills-image img, .education-image img, .certification-image img {
+        margin-bottom: 20px;
     }
 }
-
-
