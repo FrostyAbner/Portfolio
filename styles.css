@@ -19,9 +19,7 @@ body {
 }
 body.menu-open {
     overflow: hidden;
-    position: fixed;  /* freeze scroll when menu open */
-    width: 100%;
-    touch-action: none;
+    
 }
 
 /* ================= HEADER & NAVIGATION ================= */
