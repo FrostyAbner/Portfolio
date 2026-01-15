@@ -16,11 +16,11 @@ body {
     color: #fff;
     overflow-x: hidden;
 }
-
-/* Prevents background scrolling when mobile menu is open */
 body.menu-open {
     overflow: hidden;
-    height: 100vh;
+    position: fixed;  /* freeze scroll when menu open */
+    width: 100%;
+    touch-action: none;
 }
 
 /* ================= HEADER & NAVIGATION ================= */
@@ -31,21 +31,27 @@ header {
     width: 100%;
     height: 80px;
     z-index: 1000;
-    background: #222;
+    background: #222; /* Solid background so it covers content behind it */
     display: flex;
     justify-content: space-between; 
-    align-items: center; /* Vertical alignment for desktop */
-    padding: 0 8%; 
+    align-items: center;
+    padding: 0 8%; /* Slightly more padding for a modern look */
     transition: all 0.4s ease;
 }
 
-/* Sticky state triggered by scroll JS */
 header.scrolled {
-    background: rgba(15, 15, 15, 0.98);
+    height: 65px; /* Shrinks slightly when scrolling */
+    background: rgba(15, 15, 15, 0.98); /* Slightly darker/more opaque */
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-    height: 65px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+header.scrolled .logo-text {
+    font-size: 20px;
+}
+
+header.scrolled .navlinks li a {
+    font-size: 17px;
 }
 
 /* LOGO */
@@ -53,7 +59,7 @@ header.scrolled {
     display: flex;
     align-items: center;
     gap: 12px;
-    z-index: 1200; /* Stays above mobile menu */
+    white-space: nowrap; /* Prevents name from wrapping on small scrolls */
 }
 
 .logo i {
@@ -67,34 +73,32 @@ header.scrolled {
     font-size: 1.5rem;
     font-weight: 700;
     font-style: normal;
+    transition: all 0.3s ease;
 }
 
 .logo-text {
     font-size: 22px;
     font-weight: 500;
-    color: #fff;
-    transition: 0.3s;
+    transition: all 0.3s ease;
 }
 
-header.scrolled .logo-text {
-    font-size: 20px;
-}
-
-/* NAVIGATION (Desktop) */
+/* NAVIGATION LINKS */
 nav {
     display: flex;
     align-items: center;
 }
 
 .navlinks {
+    
     list-style: none;
     display: flex;
     gap: 40px;
     align-items: center;
+    transition: all 0.3s ease;
 }
 
 .navlinks li a {
-    font-size: 17px;
+    font-size: 18px;
     color: #e5e5e5;
     position: relative;
     padding-bottom: 5px;
@@ -123,21 +127,17 @@ nav {
 
 /* ================= HAMBURGER MENU ================= */
 .togglebtn {
-    display: none; /* Hidden on desktop */
+    display: none;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
-    z-index: 1200; /* Above overlay */
-    width: 30px;
-    height: 30px;
+    z-index: 1100;
 }
 
 .togglebtn span {
     width: 28px;
     height: 3px;
     background: #007ced;
-    margin: 3px 0;
+    margin: 4px 0;
     transition: 0.4s;
     border-radius: 2px;
 }
@@ -150,7 +150,7 @@ nav {
 /* ================= HERO SECTION ================= */
 .hero-header {
     min-height: 100vh;
-    padding-top: 100px; /* Offset for sticky header */
+    padding-top: 140px;
     display: flex;
     align-items: center;
     opacity: 0;
@@ -171,30 +171,33 @@ nav {
 }
 
 .hero-pic {
-    width: 400px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
     border-radius: 50%;
     overflow: hidden;
     border: 10px solid #444;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 5px 7px 25px rgba(0,0,0,0.5);
 }
 
 .hero-pic img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: 0.5s;
 }
 
-.hero-text { max-width: 500px; }
-.hero-text h1 { font-size: 3.5rem; color: #007ced; margin: 10px 0; }
-.hero-text p { font-size: 18px; line-height: 1.6; margin-bottom: 30px; color: #ccc;}
+.hero-pic img:hover { transform: scale(1.1); }
 
-.btn {
-    padding: 12px 28px;
+.hero-text { max-width: 500px; }
+.hero-text h5 { font-size: 20px; color: #fff; margin-bottom: 10px; }
+.hero-text h1 { font-size: 3.5rem; color: #007ced; margin: 10px 0; }
+.hero-text p { font-size: 18px; line-height: 1.6; margin-bottom: 30px; }
+
+.btn-group .btn {
+    padding: 15px 30px;
     border-radius: 30px;
     border: 2px solid #007ced;
     color: #fff;
-    background: transparent;
     transition: 0.3s;
     display: inline-block;
 }
@@ -202,100 +205,189 @@ nav {
 .btn:hover { background: #007ced; }
 
 .social img {
-    width: 35px;
-    margin-right: 15px;
-    margin-top: 25px;
+    width: 45px;
+    margin-right: 20px;
+    margin-top: 30px;
     transition: 0.3s;
 }
 
-.social img:hover { transform: scale(1.1); }
+.social img:hover { transform: scale(1.2); }
 
-/* ================= SECTIONS & CARDS ================= */
+/* ================= COMMON SECTION STYLES ================= */
 .section {
-    padding: 80px 0;
+    padding: 100px 0;
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
     transition: 1s ease;
 }
 
-.section.show { opacity: 1; transform: translateY(0); }
+.section.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-.wrapper { width: 1200px; max-width: 90%; margin: 0 auto; }
+.wrapper {
+    width: 1200px;
+    max-width: 90%;
+    margin: 0 auto;
+}
 
 .section-divider {
     border: none;
-    height: 4px;
-    width: 70%;
-    background: #007ced;
+    height: 5px;
+    width: 80%;
+    background-color: #007ced;
     border-radius: 50px;
     margin: 40px auto;
 }
 
+/* ================= ABOUT SECTION ================= */
+.about-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+}
+
+.about-text h1 { font-size: 60px; }
+.about-text h2 span { color: #007ced; }
+.about-text h2 { font-size: 3.5rem; color: #fff; }
+.about-text p { font-size: 18px; color: #ccc; line-height: 1.8; margin-top: 20px; }
+
+.about-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 124, 237, 0.2);
+}
+
+.card small { color: #aaa; text-transform: uppercase; font-size: 11px; letter-spacing: 1px; }
+.card h3 { margin-top: 8px; font-size: 15px; }
+
+/* ================= SKILLS / EDUCATION / CERTIFICATION ================= */
+.skills-wrapper, .education-wrapper, .certification-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+}
+
+.skills-image img, .education-image img, .certification-image img {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 10px solid #444;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.skills-content, .education-content, .certification-content { 
+    font-size: 20px;
+    flex: 1;
+}
+
+.skills-content p, .education-content p, .certification-content p { 
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
 .skill-card, .education-card, .certification-card {
     border: 2px solid #007ced;
-    padding: 25px;
-    border-radius: 15px;
+    padding: 30px;
+    border-radius: 18px;
     margin-bottom: 15px;
+    transition: 0.3s;
 }
+
+.skill-card:hover, .education-card:hover, .certification-card:hover {
+    transform: translateX(10px);
+    background: rgba(0, 124, 237, 0.05);
+}
+
+.skill-card h3, .education-card h3, .certification-card h3 { color: #007ced; font-size: 22px; }
 
 /* ================= MOBILE RESPONSIVENESS ================= */
 @media (max-width: 900px) {
 
-    header {
-        height: 70px;
-        padding: 0 20px;
-        /* Safe area support for iOS notches */
-        padding-top: env(safe-area-inset-top); 
-        display: flex;
-        align-items: center; /* Perfect vertical centering for Android/iOS */
-    }
+    /* Prevent horizontal scroll */
+    html, body { overflow-x: hidden; }
 
+    /* Header padding */
+    header { padding: 0 20px; }
+
+    /* Hamburger button */
     .togglebtn {
-        display: flex; /* Show hamburger */
-        position: relative; /* Removes fixed/absolute offsets */
+        display: flex;
+        position: fixed;
+        top: 26px;
+        right: 20px;
+        z-index: 1200;
+        flex-direction: column;
+        cursor: pointer;
     }
 
+    .togglebtn span {
+        width: 28px;
+        height: 3px;
+        background: #007ced;
+        margin: 4px 0;
+        transition: 0.4s;
+        border-radius: 2px;
+    }
+
+    .togglebtn.click span:nth-child(1) { transform: rotate(-45deg) translate(-5px, 6px); }
+    .togglebtn.click span:nth-child(2) { opacity: 0; }
+    .togglebtn.click span:nth-child(3) { transform: rotate(45deg) translate(-5px, -7px); }
+
+    /* Fullscreen nav menu */
     .navlinks {
         position: fixed;
         inset: 0;
         width: 100%;
-        height: 100vh;
-        background: rgba(18, 18, 18, 0.98);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
+        height: 100%;
+        background: rgba(20,20,20,0.98);
+        backdrop-filter: blur(6px);
+        display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        gap: 30px;
-        transform: translateX(100%);
-        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        gap: 35px;
+        z-index: 1100;
+
+        transform: translateX(105%);
+        transition: transform 0.45s ease-in-out;
     }
 
-    .navlinks.open {
-        transform: translateX(0);
-    }
+    .navlinks.open { transform: translateX(0); }
 
-    .navlinks li a {
-        font-size: 24px;
-    }
-
-    /* Stack sections vertically */
-    .container, .about-container, .skills-wrapper, .education-wrapper, .certification-wrapper {
+    /* Stack content for mobile */
+    .container,
+    .about-container,
+    .skills-wrapper,
+    .education-wrapper,
+    .certification-wrapper {
         flex-direction: column;
+        grid-template-columns: 1fr;
         text-align: center;
     }
 
-    .hero-pic {
-        width: 280px;
-        height: 280px;
-        margin-bottom: 30px;
-    }
-
+    .hero-pic { width: 300px; height: 300px; }
     .hero-text h1 { font-size: 2.5rem; }
+    .about-cards { grid-template-columns: 1fr; }
 
-    .skills-image img, .education-image img, .certification-image img {
-        width: 150px;
-        height: 150px;
-        margin-bottom: 20px;
-    }
+    .skill-card:hover,
+    .education-card:hover,
+    .certification-card:hover { transform: translateY(-5px); }
 }
