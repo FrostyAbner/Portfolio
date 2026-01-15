@@ -6,6 +6,7 @@
     <title>Portfolio | Earl John Duruin</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body>
 
@@ -50,7 +51,9 @@
                 </p>
 
                 <div class="btn-group">
-                    <a href="#" class="btn active">Download CV</a>
+                    <a href="assets/CV Earl John Lauren Duruin.pdf" download="Earl_John_Duruin_CV" class="btn active">
+                        Download CV
+                    </a>
                 </div>
 
                 <div class="social">
@@ -234,15 +237,40 @@
 </div>
 
 <section id="contact" class="section">
-    <div class="wrapper">
-        <h1>Contact</h1>
-        <p>Feel free to reach out via email or social media!</p>
+    <div class="wrapper contact-wrapper">
+
+        <div class="contact-image">
+            <img src="image/mail.gif" alt="Contact illustration">
+        </div>
+
+        <div class="contact-content">
+            <h1>Contact</h1>
+            <p>Feel free to reach out via email or social media!</p>
+
+            <div class="contact-card">
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" name="user_name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="user_email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea name="message" rows="5" placeholder="How can I help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+
     </div>
 </section>
 
-<div class="container">
-    <hr class="section-divider">
-</div>
+
+
 
 <script src="function.js"></script>
 
