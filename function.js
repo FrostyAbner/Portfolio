@@ -4,107 +4,111 @@ const nav = document.querySelector(".navlinks");
 const navLinks = document.querySelectorAll(".navlinks a");
 const sections = document.querySelectorAll("section, .hero-header");
 const header = document.querySelector("header");
-const contactForm = document.getElementById('contact-form');
+const contactForm = document.getElementById("contact-form");
 
 /* ================= MOBILE MENU TOGGLE ================= */
 togglebtn.addEventListener("click", () => {
-    const isOpen = nav.classList.toggle("open");
     togglebtn.classList.toggle("click");
-    document.body.classList.toggle("menu-open", isOpen);
+    nav.classList.toggle("open");
+    document.body.classList.toggle("menu-open");
 });
 
-/* ================= NAV LINK CLICK ================= */
+/* ================= CLOSE MENU ON LINK CLICK ================= */
 navLinks.forEach(link => {
-    link.addEventListener("click", (e) => {
-        // Smooth scroll handling is already handled by CSS scroll-behavior: smooth
+    link.addEventListener("click", () => {
         nav.classList.remove("open");
         togglebtn.classList.remove("click");
         document.body.classList.remove("menu-open");
     });
 });
 
-/* ================= SCROLL & REVEAL LOGIC ================= */
-const handleScrollEffects = () => {
+/* ================= SCROLL LOGIC ================= */
+function handleScrollEffects() {
     const scrollY = window.scrollY;
 
-    // 1. Sticky Header
+    /* Sticky Header */
     if (scrollY > 20) {
         header.classList.add("scrolled");
     } else {
         header.classList.remove("scrolled");
     }
 
-    // 2. Section Reveal & Active Link Highlight
-    let currentSectionId = "";
+    let currentSection = "";
 
     sections.forEach(section => {
-        const sectionTop = section.offsetTop - 150;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute("id");
+        const sectionId = section.id;
+        if (!sectionId) return; // 🔥 FIX: ignore hero-header
 
-        // Determine which section is currently in view for the Nav highlight
+        const sectionTop = section.offsetTop - 200;
+        const sectionHeight = section.offsetHeight;
+
         if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-            currentSectionId = sectionId;
+            currentSection = sectionId;
         }
 
-        // Reveal animation: Trigger when element enters the viewport
-        const sectionBounds = section.getBoundingClientRect();
-        if (sectionBounds.top < window.innerHeight - 100) {
+        /* Reveal animation */
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
             section.classList.add("show");
         }
     });
 
-    // Update Nav Active State
+    /* NAV UNDERLINE UPDATE */
     navLinks.forEach(link => {
         link.classList.remove("active");
-        if (link.getAttribute("href") === "#" + currentSectionId) {
+        if (link.getAttribute("href") === `#${currentSection}`) {
             link.classList.add("active");
         }
     });
-};
+}
 
-/* ================= EVENT LISTENERS ================= */
+window.onscroll = function() { updateScrollProgress() };
 
-// Run on Scroll
+function updateScrollProgress() {
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+    document.getElementById("myBar").style.width = scrolled + "%";
+}
+
+/* ================= EVENTS ================= */
 window.addEventListener("scroll", handleScrollEffects);
 
-// Run on Page Load (Fixes the "Refresh Lag/Blank Screen" bug)
 window.addEventListener("DOMContentLoaded", () => {
     handleScrollEffects();
-    // Ensure hero shows up even if scroll is 0
-    document.querySelector(".hero-header").classList.add("show");
+    document.querySelector(".hero-header")?.classList.add("show");
 });
 
-/* ================= EMAILJS CONTACT FORM ================= */
-// Initialize EmailJS
+/* ================= EMAILJS ================= */
 emailjs.init("pyCWll2g_uIE4JRlz");
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(event) {
-        event.preventDefault();
+    contactForm.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-        const btn = contactForm.querySelector('.submit-btn');
+        const btn = this.querySelector(".submit-btn");
         const originalText = btn.textContent;
-        
-        btn.textContent = 'Sending...';
+
+        btn.textContent = "Sending...";
         btn.disabled = true;
 
-        emailjs.sendForm('service_r2s7ncu', 'template_ywsachu', this)
+        emailjs
+            .sendForm("service_r2s7ncu", "template_ywsachu", this)
             .then(() => {
-                btn.textContent = 'Message Sent!';
-                btn.style.backgroundColor = '#28a745'; 
-                contactForm.reset();
-                
+                btn.textContent = "Message Sent!";
+                btn.style.backgroundColor = "#28a745";
+                this.reset();
+
                 setTimeout(() => {
                     btn.textContent = originalText;
-                    btn.style.backgroundColor = ""; 
+                    btn.style.backgroundColor = "";
                     btn.disabled = false;
                 }, 3000);
-            }, (err) => {
-                btn.textContent = 'Error!';
-                btn.style.backgroundColor = '#dc3545';
-                console.error("EmailJS Error:", err);
-                alert("Failed to send message. Please try again later.");
+            })
+            .catch(err => {
+                console.error(err);
+                btn.textContent = "Error!";
+                btn.style.backgroundColor = "#dc3545";
                 btn.disabled = false;
             });
     });

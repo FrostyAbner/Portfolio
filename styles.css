@@ -21,6 +21,41 @@ body {
 body.menu-open {
     overflow: hidden;
 }
+::-webkit-scrollbar{
+    width: .6rem;
+    background-color: rgb(34, 40, 49);
+}
+::-webkit-scrollbar-thumb{
+    background-color: #007ced;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover{
+    background-color: rgb(118, 171, 174);
+}
+.progress-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px; 
+    background: transparent;
+    z-index: 2000; 
+}
+
+.progress-bar {
+    height: 2px;
+    background: #007ced; 
+    width: 0%; 
+    transition: width 0.1s ease-out;
+}
+footer{
+    text-align: center;
+    padding: 15px 0;
+    background-color: #111;
+    color: #aaa;
+    font-size: 14px;
+}
+
 
 /* ================= HEADER & NAVIGATION ================= */
 header {
@@ -369,7 +404,78 @@ nav { display: flex; align-items: center; }
     transition: 0.3s;
     margin-top: 10px;
 }
+.projects-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
 
+/* Reuse skills image style */
+.projects-image {
+    flex-shrink: 0;
+}
+
+.projects-image img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 10px solid #444;
+    box-shadow: 5px 7px 25px rgba(0,0,0,0.5);
+}
+
+/* Content */
+.projects-content {
+    flex: 1;
+    max-width: 700px;
+}
+
+.projects-content h1 {
+    font-size: 70px;
+    margin-bottom: 10px;
+}
+
+.projects-content p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+/* Project Cards */
+.projects-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.project-card {
+    background: transparent;
+    color: #fff;
+    padding: 18px 22px;
+    border-radius: 18px;
+    border: 2px solid #007ced;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card h3 {
+    color: #007ced;
+    font-size: 25px;
+    margin-bottom: 6px;
+}
+
+.project-card p {
+    font-size: 20px;
+    opacity: 0.9;
+    line-height: 1.6;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px rgba(0,124,237,0.5);
+}
 .submit-btn:hover { background-color: #005bb5; }
 
 /* ================= MOBILE RESPONSIVENESS ================= */
@@ -415,5 +521,35 @@ nav { display: flex; align-items: center; }
     /* Fix hover animation for touch devices */
     .skill-card:hover, .education-card:hover, .certification-card:hover, .contact-card:hover {
         transform: translateY(-5px);
+    }
+}
+@media (max-width: 900px) {
+    .projects-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+        padding: 40px 16px;
+    }
+
+    .projects-image img {
+        width: 140px;
+        height: 140px;
+        border-width: 6px;
+    }
+
+    .projects-content h1 {
+        font-size: 38px;
+    }
+
+    .projects-content p {
+        font-size: 16px;
+    }
+
+    .project-card h3 {
+        font-size: 20px;
+    }
+
+    .project-card p {
+        font-size: 16px;
     }
 }
