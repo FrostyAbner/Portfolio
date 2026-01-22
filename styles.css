@@ -60,12 +60,20 @@ body.menu-open {
     width: .6rem;
     background-color: var(--scrollbar-bg);
 }
+
 ::-webkit-scrollbar-thumb {
     background-color: var(--scrollbar-thumb);
     border-radius: 10px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-    background-color: rgb(118, 171, 174);
+    background-color: #76abaf; /* A slight variation on hover */
+}
+
+/* This handles Firefox (Mobile and Desktop) */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-bg);
 }
 
 .progress-container {
@@ -585,5 +593,10 @@ nav { display: flex; align-items: center; }
     /* Fix hover animation for touch devices */
     .skill-card:hover, .education-card:hover, .certification-card:hover, .contact-card:hover {
         transform: translateY(-5px);
+    }
+}
+@media (max-width: 900px) {
+    ::-webkit-scrollbar {
+        width: 4px; /* Make it a bit thinner on mobile to stay sleek */
     }
 }
